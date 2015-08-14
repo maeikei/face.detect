@@ -1,8 +1,10 @@
 CFLAGS  := $(shell pkg-config --cflags opencv)
+CFLAGS  += -pthread
 
 LDFLAGS := $(shell pkg-config --libs opencv)
 LDFLAGS += -lboost_filesystem 
 LDFLAGS += -lboost_system
+LDFLAGS += -lpthread
 
 all:
 	g++ -std=c++11 $(CFLAGS) capture_face.cpp $(LDFLAGS) -o capture.bin 
