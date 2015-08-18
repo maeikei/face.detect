@@ -163,16 +163,8 @@ void FaceFrameCutter::cut(const string &video)
 			if(1 == faceNum)
 			{
 				auto face = faces.front();
-				if(prevFace != constZeroFace)
-				{
-					if(false == isNearFace(face,prevFace))
-					{
-						continue;
-					}
-					prevFace = face;
-				}
 				cv::Point pt1(face.x, face.y);
-		        cv::Point pt2((face.x + face.height), (face.y + face.width));
+		        	cv::Point pt2((face.x + face.height), (face.y + face.width));
 				cv::Mat faceFrame(frame,face);
 				cv::Mat dstFrame(256,256,faceFrame.type());
 				cv::resize(faceFrame,dstFrame,cv::Size(256,256));
@@ -181,6 +173,16 @@ void FaceFrameCutter::cut(const string &video)
 				std::ostringstream sout;
 				sout << std::setfill('0') << std::setw(6) << ++frameCounter_;
 				
+				if(constSkipFrontFaceCounter > frameCounter_)
+				{
+					cout << "skip first face" << endl;
+					continue;
+				}
+				if(constTotalFaceCounter < frameCounter_)
+				{
+					cout << "finnish face cut" << endl;
+					break;
+				}
 				if(frameCounter_%24)
 				{
 					image_path += "/train/";
