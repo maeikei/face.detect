@@ -21,6 +21,11 @@ cout << #x << ":=<" << x << ">" << endl;
 
 const static string cStrFaceCascadeName = 
  "/usr/share/opencv/haarcascades/haarcascade_frontalface_alt.xml";
+static int faceSize = 256;
+static bool faceGray = false;
+static int constSkipFrontFaceCounter = 24*5;
+static int constTotalFaceCounter = 24*30;
+
 
 
 void faceCutFrame(const cv::CascadeClassifier &classifier,const string &path);
