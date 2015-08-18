@@ -11,6 +11,7 @@ using namespace std;
 #include <opencv2/opencv.hpp>
 #include <opencv2/ocl/ocl.hpp>
 using namespace cv;
+#include "param.hpp"
 
 
 #define DUMP(x) \
@@ -157,7 +158,7 @@ void FaceFrameCutter::cut(const string &video)
 			//cv::cvtColor(frame, grayFrame, cv::COLOR_BGR2GRAY);
 			// Detect faces
 			vector<cv::Rect> faces;
-		    faceCascade_.detectMultiScale(oclFrame, faces);
+		    faceCascade_.detectMultiScale(oclFrame, faces,scaleFactorFace,minNeighborsFace,flagsFace,minSizeFace,maxSizeFace);
 			auto faceNum = faces.size();
 			if(1 == faceNum)
 			{
