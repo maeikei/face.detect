@@ -10,6 +10,7 @@ using namespace std;
 #include <opencv2/core/core.hpp>
 #include <opencv2/opencv.hpp>
 using namespace cv;
+#include "param.hpp"
 
 
 #define DUMP(x) \
@@ -78,7 +79,7 @@ namespace fs = boost::filesystem;
 
 void FaceFrameCutter::cut()
 {
-	cut(1);
+	cut(0);
 }
 
 void FaceFrameCutter::cut(int video)
@@ -86,15 +87,15 @@ void FaceFrameCutter::cut(int video)
 	try
 	{
 		cv::VideoCapture cap(video);
-		cv::Rect prevFace(0,0,0,0);
 		while(true)
 		{
 			cv::Mat frame,grayFrame;
 			cap >> frame;
+			DUMP(frame.channels());
 			cv::cvtColor(frame, grayFrame, cv::COLOR_BGR2GRAY);
 			// Detect faces
 			vector<cv::Rect> faces;
-		    faceCascade_.detectMultiScale(grayFrame, faces);
+		    faceCascade_.detectMultiScale(grayFrame, faces,scaleFactorFace,minNeighborsFace,flagsFace,minSizeFace,maxSizeFace);
 			auto faceNum = faces.size();
 			if(1 == faceNum)
 			{

@@ -11,6 +11,7 @@ using namespace std;
 #include <opencv2/core/core.hpp>
 #include <opencv2/opencv.hpp>
 using namespace cv;
+#include "param.hpp"
 
 
 #define DUMP(x) \
@@ -117,7 +118,7 @@ void doDetectFace(void)
 			cv::cvtColor(frame, grayFrame, cv::COLOR_BGR2GRAY);
 			// Detect faces
 			vector<cv::Rect> faces;
-		    faceCascade.detectMultiScale(grayFrame, faces);
+		    faceCascade.detectMultiScale(grayFrame, faces,scaleFactorFace,minNeighborsFace,flagsFace,minSizeFace,maxSizeFace);
 			auto faceNum = faces.size();
 			if(0 == faceNum)
 			{

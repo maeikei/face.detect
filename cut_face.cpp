@@ -10,6 +10,7 @@ using namespace std;
 #include <opencv2/core/core.hpp>
 #include <opencv2/opencv.hpp>
 using namespace cv;
+#include "param.hpp"
 
 
 #define DUMP(x) \
@@ -42,9 +43,30 @@ private:
 	int frameCounter_ = 0;
 };
 
+static int faceSize = 256;
+static bool faceGray = false;
+
+
+static int constSkipFrontFaceCounter = 24*5;
+static int constTotalFaceCounter = 24*30;
+
 
 int main(int argc, char *argv[])
 {
+	if(1 <argc)
+	{
+		faceSize = std::atoi(argv[1]);
+	}
+	if(2 <argc)
+	{
+		if("gray" == string(argv[2]))
+		{
+			faceGray = true;
+		}
+	}
+				
+	DUMP(faceSize);
+	DUMP(faceGray);
 	FaceFrameCutter cutter(cStrFaceCascadeName,"data","output");
 	cutter.init();
 	cutter.cut();
@@ -123,25 +145,12 @@ void FaceFrameCutter::cut()
 	val_.close();
 }
 
-const static cv::Rect constZeroFace(0,0,0,0);
-
-bool isNearFace(const cv::Rect &a,const cv::Rect &b)
-{
-	auto distance = pow(a.x -  b.x + (a.width - b.width)/2 ,2);
-	distance += pow(a.y -  b.y + (a.height - b.height)/2 ,2);
-	if(distance > 25)
-	{
-		return false;
-	}
-	return true;
-}
 void FaceFrameCutter::cut(const string &video)
 {
 	const fs::path path(video);
 	try
 	{
 		cv::VideoCapture cap(video);
-		cv::Rect prevFace(0,0,0,0);
 		while(true)
 //		for(int iFrame =0 ;iFrame < 120;iFrame++)
 		{
@@ -154,29 +163,49 @@ void FaceFrameCutter::cut(const string &video)
 			cv::cvtColor(frame, grayFrame, cv::COLOR_BGR2GRAY);
 			// Detect faces
 			vector<cv::Rect> faces;
-		    faceCascade_.detectMultiScale(grayFrame, faces);
+		    faceCascade_.detectMultiScale(grayFrame, faces,scaleFactorFace,minNeighborsFace,flagsFace,minSizeFace,maxSizeFace);
 			auto faceNum = faces.size();
+			DUMP(faces.size());
 			if(1 == faceNum)
 			{
 				auto face = faces.front();
-				if(prevFace != constZeroFace)
-				{
-					if(false == isNearFace(face,prevFace))
-					{
-						continue;
-					}
-					prevFace = face;
-				}
 				cv::Point pt1(face.x, face.y);
 		        cv::Point pt2((face.x + face.height), (face.y + face.width));
-				cv::Mat faceFrame(frame,face);
-				cv::Mat dstFrame(256,256,faceFrame.type());
-				cv::resize(faceFrame,dstFrame,cv::Size(256,256));
+				cv::Mat faceFrame;
+				if(faceGray)
+				{
+					cv::Mat faceFrame2(grayFrame,face);
+					faceFrame2.copyTo(faceFrame);
+				}
+				else
+				{
+					cv::Mat faceFrame2(frame,face);
+					faceFrame2.copyTo(faceFrame);
+				}
+				DUMP(face.height);
+				DUMP(face.width);
+				auto faceX = face.x + face.height/2;
+				auto faceY = face.y + face.width/2;
+				DUMP(faceX);
+				DUMP(faceY);
+				
+				cv::Mat dstFrame(faceSize,faceSize,faceFrame.type());
+				cv::resize(faceFrame,dstFrame,cv::Size(faceSize,faceSize));
 				string image_path(outputPitures_);
 				
 				std::ostringstream sout;
 				sout << std::setfill('0') << std::setw(6) << ++frameCounter_;
 				
+				if(constSkipFrontFaceCounter > frameCounter_)
+				{
+					cout << "skip first face" << endl;
+					continue;
+				}
+				if(constTotalFaceCounter < frameCounter_)
+				{
+					cout << "finnish face cut" << endl;
+					break;
+				}
 				if(frameCounter_%24)
 				{
 					image_path += "/train/";
