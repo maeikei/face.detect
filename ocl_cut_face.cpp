@@ -120,10 +120,14 @@ void FaceFrameCutter::cut()
 	{
 		if (!fs::is_directory(p))
 		{
-			DUMP(p);
-			frameCounter_ = 0;
-			cut(p.string());
-			label_++;
+			//DUMP(p);
+			if("avi" == p.extension().string() )
+			{
+				DUMP(p);
+				frameCounter_ = 0;
+				cut(p.string());
+				label_++;
+			}
 		}
 	}
 	train_.close();
