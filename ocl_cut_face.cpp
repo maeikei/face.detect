@@ -24,7 +24,7 @@ const static string cStrFaceCascadeName =
 static int faceSize = 256;
 static bool faceGray = false;
 static int constSkipFrontFaceCounter = 24*5;
-static int constTotalFaceCounter = 24*30;
+static int constTotalFaceCounter = 24*60;
 
 
 
