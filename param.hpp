@@ -7,3 +7,10 @@ static const int minNeighborsFace = 3;
 static const int flagsFace = 0;
 static const cv::Size minSizeFace(128,128);
 static const cv::Size maxSizeFace(512,512);
+#if __OSX__
+const static string cStrFaceCascadeName =
+"/usr/local/share/OpenCV/haarcascades/haarcascade_frontalface_alt.xml";
+#else
+const static string cStrFaceCascadeName =
+"/usr/share/opencv/haarcascades/haarcascade_frontalface_alt.xml";
+#endif

@@ -19,8 +19,6 @@ cout << #x << ":=<" << x << ">" << endl;
 
 
 
-const static string cStrFaceCascadeName = 
-			"/usr/share/opencv/haarcascades/haarcascade_frontalface_alt.xml";
 
 static atomic<bool> captureFaceVideoBegin(false);
 static atomic<bool> captureFaceVideoEnd(true);
