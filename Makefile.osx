@@ -1,10 +1,69 @@
 CFLAGS  := $(shell pkg-config --cflags opencv)
 CFLAGS  += -pthread
 
-LDFLAGS := $(shell pkg-config --libs opencv)
+
+
+
+LDFLAGS :=
 LDFLAGS += -lboost_filesystem 
 LDFLAGS += -lboost_system
 LDFLAGS += -lpthread
+LDFLAGS += -lopencv_calib3d
+LDFLAGS += -lopencv_calib3d
+LDFLAGS += -lopencv_calib3d
+LDFLAGS += -lopencv_contrib
+LDFLAGS += -lopencv_contrib
+LDFLAGS += -lopencv_contrib
+LDFLAGS += -lopencv_core
+LDFLAGS += -lopencv_core
+LDFLAGS += -lopencv_core
+LDFLAGS += -lopencv_features2d
+LDFLAGS += -lopencv_features2d
+LDFLAGS += -lopencv_features2d
+LDFLAGS += -lopencv_flann
+LDFLAGS += -lopencv_flann
+LDFLAGS += -lopencv_flann
+LDFLAGS += -lopencv_gpu
+LDFLAGS += -lopencv_gpu
+LDFLAGS += -lopencv_gpu
+LDFLAGS += -lopencv_highgui
+LDFLAGS += -lopencv_highgui
+LDFLAGS += -lopencv_highgui
+LDFLAGS += -lopencv_imgproc
+LDFLAGS += -lopencv_imgproc
+LDFLAGS += -lopencv_imgproc
+LDFLAGS += -lopencv_legacy
+LDFLAGS += -lopencv_legacy
+LDFLAGS += -lopencv_legacy
+LDFLAGS += -lopencv_ml
+LDFLAGS += -lopencv_ml
+LDFLAGS += -lopencv_ml
+LDFLAGS += -lopencv_nonfree
+LDFLAGS += -lopencv_nonfree
+LDFLAGS += -lopencv_nonfree
+LDFLAGS += -lopencv_objdetect
+LDFLAGS += -lopencv_objdetect
+LDFLAGS += -lopencv_objdetect
+LDFLAGS += -lopencv_ocl
+LDFLAGS += -lopencv_ocl
+LDFLAGS += -lopencv_ocl
+LDFLAGS += -lopencv_photo
+LDFLAGS += -lopencv_photo
+LDFLAGS += -lopencv_photo
+LDFLAGS += -lopencv_stitching
+LDFLAGS += -lopencv_stitching
+LDFLAGS += -lopencv_stitching
+LDFLAGS += -lopencv_superres
+LDFLAGS += -lopencv_superres
+LDFLAGS += -lopencv_superres
+LDFLAGS += -lopencv_video
+LDFLAGS += -lopencv_video
+LDFLAGS += -lopencv_video
+LDFLAGS += -lopencv_videostab
+LDFLAGS += -lopencv_videostab
+LDFLAGS += -lopencv_videostab
+
+
 
 all:
 	g++ -std=c++11 $(CFLAGS) capture_face.cpp $(LDFLAGS) -o capture.bin 
