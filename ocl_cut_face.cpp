@@ -50,6 +50,19 @@ private:
 
 int main(int argc, char *argv[])
 {
+	if(1 <argc)
+	{
+		faceSize = std::atoi(argv[1]);
+	}
+	if(2 <argc)
+	{
+		if("gray" == string(argv[2]))
+		{
+			faceGray = true;
+		}
+	}
+	DUMP(faceSize);
+	DUMP(faceGray);
 	FaceFrameCutter cutter(cStrFaceCascadeName,"data","output");
 	cutter.init();
 	cutter.cut();
@@ -175,8 +188,19 @@ void FaceFrameCutter::cut(const string &video)
 				cv::Point pt1(face.x, face.y);
 		        	cv::Point pt2((face.x + face.height), (face.y + face.width));
 				cv::Mat faceFrame(frame,face);
-				cv::Mat dstFrame(256,256,faceFrame.type());
-				cv::resize(faceFrame,dstFrame,cv::Size(256,256));
+				if(faceGray)
+				{
+					cv::Mat faceFrame2(grayFrame,face);
+					faceFrame2.copyTo(faceFrame);
+				}
+				else
+				{
+					cv::Mat faceFrame2(frame,face);
+					faceFrame2.copyTo(faceFrame);
+				}
+
+				cv::Mat dstFrame(faceSize,faceSize,faceFrame.type());
+				cv::resize(faceFrame,dstFrame,cv::Size(faceSize,faceSize));
 				string image_path(outputPitures_);
 				
 				std::ostringstream sout;
