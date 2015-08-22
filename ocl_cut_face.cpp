@@ -15,7 +15,7 @@ using namespace cv;
 
 
 #define DUMP(x) \
-cout << #x << ":=<" << x << ">" << endl;
+cout << __LINE__ << " " << #x << ":=<" << x << ">" << endl;
 
 
 
@@ -149,6 +149,7 @@ void FaceFrameCutter::cut(const string &video)
 	const fs::path path(video);
 	try
 	{
+        DUMP(frameCounter_);
 		cv::VideoCapture cap(video);
 		cv::Rect prevFace(0,0,0,0);
 		while(true)
@@ -158,6 +159,7 @@ void FaceFrameCutter::cut(const string &video)
 			cap >> frame;
 			if(frame.empty())
 			{
+                cout << "frame finnish" << endl;
 				break;
 			}
 			cv::ocl::oclMat oclFrame;
