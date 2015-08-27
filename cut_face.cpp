@@ -21,7 +21,8 @@ cout << #x << ":=<" << x << ">" << endl;
 static int faceSize = 256;
 static bool faceGray = false;
 static int constSkipFrontFaceCounter = 24*5;
-static int constTotalFaceCounter = 24*30;
+static int constTotalFaceCounter = 24*60;
+static int constValFaceCounter = 6;
 
 
 
@@ -206,7 +207,7 @@ void FaceFrameCutter::cut(const string &video)
 					cout << "finnish face cut" << endl;
 					break;
 				}
-				if(frameCounter_%24)
+				if(frameCounter_%constValFaceCounter)
 				{
 					image_path += "/train/";
 					train_ << path.stem().string() << "." << sout.str() << ".png" << " " << label_ << endl;
