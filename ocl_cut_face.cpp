@@ -185,8 +185,8 @@ void FaceFrameCutter::cut(const string &video)
 			if(1 == faceNum)
 			{
 				auto face = faces.front();
-				cv::Point pt1(face.x, face.y);
-		        	cv::Point pt2((face.x + face.height), (face.y + face.width));
+				cv::Point pt1(face.x - iConstPad/2, face.y - iConstPad/2);
+		        	cv::Point pt2((face.x + face.height+ iConstPad), (face.y + face.width+ iConstPad));
 				cv::Mat faceFrame(frame,face);
 				if(faceGray)
 				{
