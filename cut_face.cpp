@@ -18,7 +18,7 @@ cout << #x << ":=<" << x << ">" << endl;
 
 
 
-static int faceSize = 256;
+static int faceSize = 250;
 static bool faceGray = false;
 static int constSkipFrontFaceCounter = 24*5;
 static int constTotalFaceCounter = 24*60;
@@ -173,6 +173,10 @@ void FaceFrameCutter::cut(const string &video)
 				cv::Point pt1(face.x - iConstPad/2, face.y-iConstPad/2);
 		        cv::Point pt2((face.x + face.height + iConstPad), (face.y + face.width+ iConstPad));
 				cv::Mat faceFrame;
+				face.x -= iConstPad;
+				face.y -= iConstPad;
+				face.width += iConstPad;
+				face.height += iConstPad;
 				if(faceGray)
 				{
 					cv::Mat faceFrame2(grayFrame,face);
